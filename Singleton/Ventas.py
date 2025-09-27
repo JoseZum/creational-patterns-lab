@@ -6,3 +6,5 @@ class VentasControlador:
         db.connect()
         data = db.query("INSERT INTO ventas(fecha, total) VALUES (CURRENT_DATE, 100.000)")
         print("[Ventas] Registrado:", data)
+
+
