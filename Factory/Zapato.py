@@ -1,4 +1,8 @@
 from abc import ABC, abstractmethod
+#----------------NOTA---------------------------------------------
+# Se añadieron atributos extra a la entidad Zapato que no estaban en el diagrama inicial.
+# Esto mejora la aplicación del patrón Factory al crear objetos más completos,
+# aunque implica que los métodos ahora acepten más parámetros.
 
 #zapato interface represent the product in the factory method pattern
 from abc import ABC, abstractmethod
