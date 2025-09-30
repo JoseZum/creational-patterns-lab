@@ -1,4 +1,6 @@
-from Factory.FactoryTennis import FactoryTennis 
+from decimal import Decimal
+
+from Factory.FactoryTennis import FactoryTennis
 from Factory.FactoryTacones import FactoryTacones
 
 from Protoype.Granja import Granja

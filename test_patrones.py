@@ -31,6 +31,12 @@ def test_singleton():
     print(f"db3 id: {id(db3)}")
     print(f"¿db1 es db2? {db1 is db2}")
     print(f"¿db1 es db3? {db1 is db3}")
+
+    # Aserciones
+    assert db1 is db2, "FALLO: db1 y db2 deben ser la misma instancia"
+    assert db1 is db3, "FALLO: db1 y db3 deben ser la misma instancia"
+    assert id(db1) == id(db2) == id(db3), "FALLO: Todas las instancias deben tener el mismo id"
+
     print(f"Singleton verificado: Todas las referencias apuntan a la misma instancia\n")
 
     print("--- Prueba 2: Uso de la conexión desde diferentes controladores ---")
@@ -47,12 +53,25 @@ def test_singleton():
     print(f"Estado de conexión db1: {db1.connected}")
     print(f"Estado de conexión db2: {db2.connected}")
     print(f"Estado de conexión db3: {db3.connected}")
+
+    # Aserciones
+    assert db1.connected == True, "FALLO: db1 debe estar conectada"
+    assert db2.connected == True, "FALLO: db2 debe estar conectada"
+    assert db3.connected == True, "FALLO: db3 debe estar conectada"
+    assert db1.connected == db2.connected == db3.connected, "FALLO: Todas deben tener el mismo estado"
+
     print("Todas las instancias comparten el mismo estado\n")
 
     db1.disconnect()
     print(f"Después de desconectar db1:")
     print(f"Estado de conexión db2: {db2.connected}")
     print(f"Estado de conexión db3: {db3.connected}")
+
+    # Aserciones
+    assert db1.connected == False, "FALLO: db1 debe estar desconectada"
+    assert db2.connected == False, "FALLO: db2 debe estar desconectada"
+    assert db3.connected == False, "FALLO: db3 debe estar desconectada"
+
     print("El estado se sincroniza entre todas las referencias\n")
 
 
@@ -93,11 +112,23 @@ def test_prototype():
     print(f"¿Tienen los mismos valores? edad={vaca_original.edad == vaca_clonada.edad}, "
           f"color={vaca_original.color == vaca_clonada.color}")
 
+    # Aserciones
+    assert vaca_original is not vaca_clonada, "FALLO: Original y clonada deben ser objetos diferentes"
+    assert vaca_original.edad == vaca_clonada.edad, "FALLO: Deben tener la misma edad inicialmente"
+    assert vaca_original.color == vaca_clonada.color, "FALLO: Deben tener el mismo color inicialmente"
+
     print("\nModificando vaca clonada...")
     vaca_clonada.edad = 5
     vaca_clonada.color = "Marrón"
     print(f"Vaca original después de modificar clonada - Edad: {vaca_original.edad}, Color: {vaca_original.color}")
     print(f"Vaca clonada después de modificación - Edad: {vaca_clonada.edad}, Color: {vaca_clonada.color}")
+
+    # Aserciones
+    assert vaca_original.edad == 3, "FALLO: La edad de la original no debe cambiar"
+    assert vaca_clonada.edad == 5, "FALLO: La edad de la clonada debe ser 5"
+    assert vaca_original.color == "Blanco con manchas negras", "FALLO: El color de la original no debe cambiar"
+    assert vaca_clonada.color == "Marrón", "FALLO: El color de la clonada debe ser Marrón"
+
     print(" Clonación profunda verificada: Los objetos son independientes\n")
 
     print("\n--- Prueba 2: Clonación de Oveja ---")
@@ -116,6 +147,11 @@ def test_prototype():
 
     oveja_clonada = oveja_original.clone()
     print(f"\nOveja clonada - Edad: {oveja_clonada.edad}, Color: {oveja_clonada.color}")
+
+    # Aserciones
+    assert oveja_original is not oveja_clonada, "FALLO: Oveja original y clonada deben ser objetos diferentes"
+    assert oveja_original.edad == oveja_clonada.edad, "FALLO: Ovejas deben tener la misma edad"
+
     print(f"Clonación exitosa\n")
 
     print("\n--- Prueba 3: Clonación múltiple de Gallina ---")
@@ -140,6 +176,10 @@ def test_prototype():
     print(f"\nTotal de gallinas creadas: {len(gallinas)}")
     for idx, gallina in enumerate(gallinas):
         print(f"Gallina {idx + 1}: Edad={gallina.edad}, Color={gallina.color}, Valor=${gallina.valor}")
+
+    # Aserciones
+    assert len(gallinas) == 4, "FALLO: Debe haber 4 gallinas"
+    assert all(gallina_prototipo is not g for g in gallinas[1:]), "FALLO: Todas deben ser clones independientes"
 
     print("\nProbando comportamiento de gallinas:")
     gallinas[1].emitirSonido()
@@ -178,11 +218,20 @@ def test_factory():
     print(f"Detalles: Talla {tennis1.talla}, Color {tennis1.color}, Precio ${tennis1.precio}")
     print(f"Fabricado: {tennis1.fabricado}")
 
+    # Aserciones
+    assert tennis1.nombre == "Nike Air Max", "FALLO: El nombre debe ser Nike Air Max"
+    assert tennis1.talla == 42, "FALLO: La talla debe ser 42"
+    assert tennis1.fabricado == False, "FALLO: Debe estar sin fabricar inicialmente"
+
     print("\nProceso de fabricación:")
     tennis1.preparar_materiales()
     tennis1.ensamblar()
     tennis1.empaquetar()
-    print(f"Estado después de fabricar: Fabricado={tennis1.fabricado}\n")
+    print(f"Estado después de fabricar: Fabricado={tennis1.fabricado}")
+
+    # Aserciones
+    assert tennis1.fabricado == True, "FALLO: Debe estar fabricado después del proceso"
+    print()
 
     print("\n--- Prueba 2: Creación de Tacones mediante Factory ---")
     factory_tacones = FactoryTacones()
@@ -206,7 +255,12 @@ def test_factory():
     tacones1.preparar_materiales()
     tacones1.ensamblar()
     tacones1.empaquetar()
-    print(f"Estado después de fabricar: Fabricado={tacones1.fabricado}\n")
+    print(f"Estado después de fabricar: Fabricado={tacones1.fabricado}")
+
+    # Aserciones
+    assert tacones1.fabricado == True, "FALLO: Tacones deben estar fabricados"
+    assert tacones1.nombre == "Stiletto Elegance", "FALLO: El nombre debe ser Stiletto Elegance"
+    print()
 
     print("\n--- Prueba 3: Creación de múltiples zapatos ---")
     print("\nCreando línea de tennis...")
@@ -258,6 +312,10 @@ def test_factory():
     print(f"  - Tennis: {len(zapatos_tennis)}")
     print(f"  - Tacones: {len(zapatos_tacones)}")
 
+    # Aserciones
+    assert len(zapatos_tennis) == 3, "FALLO: Debe haber 3 tennis"
+    assert len(zapatos_tacones) == 2, "FALLO: Debe haber 2 tacones"
+
     print("\n--- Prueba 4: Polimorfismo - Todos los zapatos implementan la misma interfaz ---")
     todos_zapatos = [tennis1, tacones1] + zapatos_tennis + zapatos_tacones
 
@@ -270,6 +328,11 @@ def test_factory():
             zapato.empaquetar()
 
     print(f"\n Todos los zapatos fabricados exitosamente")
+
+    # Aserciones
+    assert all(z.fabricado for z in todos_zapatos), "FALLO: Todos los zapatos deben estar fabricados"
+    assert len(todos_zapatos) == 7, "FALLO: Debe haber 7 zapatos en total"
+
     print(f" Patrón Factory permite crear diferentes tipos de zapatos con la misma interfaz\n")
 
 
